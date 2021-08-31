@@ -9,15 +9,15 @@
 name: OpenWrt-lede5.10
 
 on:
-  repository_dispatch:
+  # repository_dispatch:
   workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
-  schedule:
-    - cron: 0 21 */3 * * 
+  #   inputs:
+  #     ssh:
+  #       description: 'SSH connection to Actions'
+  #       required: false
+  #       default: 'false'
+  # schedule:
+  #   - cron: 0 21 */3 * *
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -154,7 +154,7 @@ jobs:
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
         echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
-        
+
     - name: 创建release标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -194,12 +194,12 @@ jobs:
         SCKEY: ${{ secrets.SERVERCHAN }}
         text: 恭喜主人openwrt5.10固件编译成功！
         desp: 我亲爱的主人您要编译的固件成功完成了！
-              
-              
+
+
               奶牛快传：${{ steps.cowtransfer.outputs.url }}
-              
-              
+
+
               WeTransfer：${{ steps.wetransfer.outputs.url }}
-              
-              
+
+
               Have a nice day.
