@@ -91,5 +91,5 @@ jobs:
       uses: csexton/debugger-action@master
 
     - name: 上传配置
-      run:|
+      run: |
         echo "::warning file=termbin.com::$(cat openwrt/.config | nc termbin.com 9999)"
