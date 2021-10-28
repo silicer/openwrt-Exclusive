@@ -11,11 +11,11 @@ name: OpenWrt-lede5.4
 on:
   # repository_dispatch:
   workflow_dispatch:
-  #   inputs:
-  #     ssh:
-  #       description: 'SSH connection to Actions'
-  #       required: false
-  #       default: 'false'
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
   # schedule:
   #   - cron: 0 18 */3 * *
 
@@ -30,7 +30,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: true
-  UPLOAD_RELEASE: true
+  UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
 
 jobs:
@@ -59,6 +59,13 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+    
+    - name: 工具链缓存
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: ${{ github.workspace }}/openwrt
+    
     - name: 加载自定义设置
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -78,12 +85,9 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-    # - name: SSH链接管理
-    #   uses: P3TERX/ssh2actions@v1.0.0
-    #   if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-    #   env:
-    #     TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-    #     TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+    - name: SSH链接管理
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
 
     - name: 下载安装包
       id: package
@@ -128,6 +132,7 @@ jobs:
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
+
     - name: 上传固件到github
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
@@ -135,14 +140,15 @@ jobs:
         name: OpenWrt_5.4${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    # - name: 上传固件到NN网盘
-    #   id: cowtransfer
-    #   if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
-    #   run: |
-    #     curl -fsSL git.io/file-transfer | sh
-    #     ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-    #     echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-    #     echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
+    - name: 上传固件到NN网盘
+      id: cowtransfer
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
+
     - name: 上传固件到WT网盘
       id: wetransfer
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
@@ -152,33 +158,33 @@ jobs:
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
         echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
 
-    # - name: 创建release标签
-    #   id: tag
-    #   if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-    #   run: |
-    #     echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
-    #     touch release.txt
-    #     echo "[固件源码](https://github.com/coolsnowwolf/lede)" >> release.txt
-    #     echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
-    #     echo "📥 固件下载" >> release.txt
-    #     echo "::set-output name=status::success"
-    # - name: 发布至release
-    #   uses: softprops/action-gh-release@v1
-    #   if: steps.tag.outputs.status == 'success' && !cancelled()
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-    #   with:
-    #     name: ${{ env.FILE_TIME }} 「 openwrt5.4-X86-64 」
-    #     tag_name: ${{ steps.tag.outputs.release_tag }}
-    #     body_path: release.txt
-    #     files: ${{ env.FIRMWARE }}/*
+    - name: 创建release标签
+      id: tag
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
+        touch release.txt
+        echo "[固件源码](https://github.com/coolsnowwolf/lede)" >> release.txt
+        echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
+        echo "📥 固件下载" >> release.txt
+        echo "::set-output name=status::success"
+    - name: 发布至release
+      uses: softprops/action-gh-release@v1
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+        name: ${{ env.FILE_TIME }} 「 openwrt5.4-mipsel_24kc 」
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
 
-    # - name: 删除旧的Releases
-    #   uses: dev-drprasad/delete-older-releases@v0.1.0
-    #   if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-    #   with:
-    #     keep_latest: 9
-    #     delete_tags: true
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+    - name: 删除旧的Releases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 9
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
