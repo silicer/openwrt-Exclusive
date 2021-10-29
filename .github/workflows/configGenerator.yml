@@ -16,12 +16,22 @@ on:
         description: '要参考的配置文件(可留空白)'
         required: false
         default: '5.4.config'
+      repo:
+        description: '要生成配置文件的源码地址'
+        required: true
+        default: 'https://github.com/coolsnowwolf/lede'
+      branch:
+        description: '源码分支'
+        required: true
+        default: 'master'
   # schedule:
   #   - cron: 0 18 */3 * *
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
+  # REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_URL: ${{ github.event.inputs.repo }}
+  # REPO_BRANCH: master
+  REPO_BRANCH: ${{ github.event.inputs.branch}}
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: ${{ github.event.inputs.config }}
   DIY_P1_SH: diy5.4.sh
