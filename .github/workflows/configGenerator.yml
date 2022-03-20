@@ -15,7 +15,7 @@ on:
       config:
         description: '要参考的配置文件(可留空白)'
         required: false
-        default: '5.4.config'
+        default: 'x86.config'
       repo:
         description: '要生成配置文件的源码地址'
         required: true
@@ -34,7 +34,7 @@ env:
   REPO_BRANCH: ${{ github.event.inputs.branch}}
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: ${{ github.event.inputs.config }}
-  DIY_P1_SH: diy5.4.sh
+  DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
@@ -70,11 +70,11 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
     
-    - name: 工具链缓存
-      uses: klever1988/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        prefix: ${{ github.workspace }}/openwrt
+    # - name: 工具链缓存
+    #   uses: klever1988/cachewrtbuild@main
+    #   with:
+    #     ccache: 'true'
+    #     prefix: ${{ github.workspace }}/openwrt
     
     - name: 加载自定义设置
       run: |
