@@ -7,15 +7,13 @@
 # Author: P3TERX
 # Blog: https://p3terx.com
 #=============================================================
-
-# sed -i 's/KERNEL_PATCHVER:=5.15/KERNEL_PATCHVER:=5.10/g' ./target/linux/x86/Makefile
-# sed -i 's/KERNEL_PATCHVER:=5.4/KERNEL_PATCHVER:=5.10/g' ./target/linux/x86/Makefile
-
+sed -i 's/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=5.15/g' ./target/linux/x86/Makefile
 
 # Uncomment a feed source
 # sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
+echo -e "\nsrc-git opentopd  https://github.com/sirpdboy/sirpdboy-package\n" >> feeds.conf.default
 # sed -i '$a src-git opentopd https://github.com/sirpdboy/sirpdboy-package' feeds.conf.default
 # sed -i '$a src-git diy https://github.com/firker/diy-ziyong' feeds.conf.default
 # sed -i '$a src-git ssr https://github.com/fw876/helloworld' feeds.conf.default
@@ -23,7 +21,7 @@
 # sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
 # sed -i '$a src-git jerryk https://github.com/jerrykuku/openwrt-package' feeds.conf.default
 
-git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
+# git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
 # git clone -b 18.06 https://github.com/garypang13/luci-theme-edge.git package/luci-theme-edge
 # git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
 # git clone https://github.com/tty228/luci-app-serverchan.git package/luci-app-serverchan
