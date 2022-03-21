@@ -13,7 +13,7 @@ sed -i 's/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=5.15/g' ./target/linux/x86/Make
 # sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >> feeds.conf.default
+# echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >> feeds.conf.default
 # sed -i '$a src-git opentopd https://github.com/sirpdboy/sirpdboy-package' feeds.conf.default
 # sed -i '$a src-git diy https://github.com/firker/diy-ziyong' feeds.conf.default
 # sed -i '$a src-git ssr https://github.com/fw876/helloworld' feeds.conf.default
@@ -21,6 +21,8 @@ echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >> feeds.co
 # sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
 # sed -i '$a src-git jerryk https://github.com/jerrykuku/openwrt-package' feeds.conf.default
 
+git clone https://github.com/sirpdboy/sirpdboy-package package/sirpdboy-package
+rm -rf package/sirpdboy-package/luci-app-poweroffdevice
 # git clone -b 18.06 https://github.com/garypang13/luci-theme-edge.git package/luci-theme-edge
 # git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
 # git clone https://github.com/tty228/luci-app-serverchan.git package/luci-app-serverchan
