@@ -21,8 +21,10 @@ sed -i 's/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=5.15/g' ./target/linux/x86/Make
 # sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
 # sed -i '$a src-git jerryk https://github.com/jerrykuku/openwrt-package' feeds.conf.default
 
-git clone https://github.com/sirpdboy/sirpdboy-package package/sirpdboy-package
-rm -rf package/sirpdboy-package/luci-app-poweroffdevice
+sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
+sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
+# git clone https://github.com/sirpdboy/sirpdboy-package package/sirpdboy-package
+# rm -rf package/sirpdboy-package/luci-app-poweroffdevice
 # git clone -b 18.06 https://github.com/garypang13/luci-theme-edge.git package/luci-theme-edge
 # git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
 # git clone https://github.com/tty228/luci-app-serverchan.git package/luci-app-serverchan
