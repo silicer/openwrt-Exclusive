@@ -7,7 +7,7 @@
 # Author: P3TERX
 # Blog: https://p3terx.com
 #=============================================================
-sed -i 's/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=5.15/g' ./target/linux/x86/Makefile
+sed -i "s/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=$1/g" ./target/linux/x86/Makefile
 
 # Uncomment a feed source
 # sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
