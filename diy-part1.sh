@@ -23,6 +23,7 @@ sed -i "s/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=$1/g" ./target/linux/x86/Makefi
 
 sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
 sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
+sed -i '$a src-git qiusimons https://github.com/QiuSimons/openwrt-mos' feeds.conf.default
 # git clone https://github.com/sirpdboy/sirpdboy-package package/sirpdboy-package
 # rm -rf package/sirpdboy-package/luci-app-poweroffdevice
 # git clone -b 18.06 https://github.com/garypang13/luci-theme-edge.git package/luci-theme-edge

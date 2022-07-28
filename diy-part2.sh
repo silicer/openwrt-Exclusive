@@ -19,6 +19,8 @@ echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
 # Modify default IP
 # sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
 rm -rf ./feeds/packages/net/mosdns
+rm -rf ./package/feeds/kenzo/luci-app-mosdns
+rm -rf ./package/feeds/kenzo/mosdns
 rm -rf ./package/lean/luci-app-qbittorrent
 rm -rf ./package/lean/luci-theme-argon
 rm -rf ./package/lean/luci-app-serverchan
