@@ -33,7 +33,7 @@ rm -rf ./package/lean/luci-app-serverchan
 
 # MosDNS
 svn co https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns package/luci-app-mosdns
-svn co https://github.com/QiuSimons/openwrt-mos/trunk/mosdns package/mosdns
+svn co https://github.com/QiuSimons/openwrt-mos/trunk/mosdns feeds/packages/net/mosdns
 # svn co https://github.com/QiuSimons/openwrt-mos/trunk/v2ray-geodata package/v2ray-geodata
 
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-clash package/luci-app-clash
