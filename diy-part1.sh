@@ -48,3 +48,6 @@ sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
 # svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
 
 rm -rf ./target/linux/generic/pending-5.10/701-net-ethernet-mtk_eth_soc-add-ipv6-flow-offloading-support.patch
+git clone https://github.com/padavanonly/immortalwrt.git ../driver
+rm -rf target/linux/ramips
+mv ../driver/target/linux/ramips/ target/linux/
