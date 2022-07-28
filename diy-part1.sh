@@ -23,7 +23,7 @@ sed -i "s/KERNEL_PATCHVER:=5.10/KERNEL_PATCHVER:=$1/g" ./target/linux/x86/Makefi
 
 sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
 sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
-sed -i '$a src-git qiusimons https://github.com/QiuSimons/openwrt-mos' feeds.conf.default
+# sed -i '$a src-git qiusimons https://github.com/QiuSimons/openwrt-mos' feeds.conf.default
 # git clone https://github.com/sirpdboy/sirpdboy-package package/sirpdboy-package
 # rm -rf package/sirpdboy-package/luci-app-poweroffdevice
 # git clone -b 18.06 https://github.com/garypang13/luci-theme-edge.git package/luci-theme-edge
@@ -42,6 +42,11 @@ sed -i '$a src-git qiusimons https://github.com/QiuSimons/openwrt-mos' feeds.con
 # git clone https://github.com/godros/luci-app-godproxy.git package/luci-app-godproxy
 # git clone https://github.com/BCYDTZ/luci-app-UUGameAcc.git package/luci-app-UUGameAcc
 # git clone -b master https://github.com/vernesong/OpenClash.git package/OpenClash
+
+# MosDNS
+svn co https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns package/luci-app-mosdns
+svn co https://github.com/QiuSimons/openwrt-mos/trunk/mosdns package/mosdns
+svn co https://github.com/QiuSimons/openwrt-mos/trunk/v2ray-geodata package/v2ray-geodata
 
 # svn co https://github.com/messense/aliyundrive-webdav/trunk/openwrt package/aliyundrive-webdav
 # svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/adguardhome
