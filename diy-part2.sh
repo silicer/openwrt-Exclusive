@@ -30,3 +30,10 @@ rm -rf ./package/lean/luci-app-serverchan
 # rm -rf ./feeds/diy/adguardhome
 # rm -rf ./feeds/diy/luci-app-adguardhome
 # svn co https://github.com/Lienol/openwrt-packages/trunk/net/https-dns-proxy feeds/packages/net/https-dns-proxy
+
+# MosDNS
+svn co https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns package/luci-app-mosdns
+svn co https://github.com/QiuSimons/openwrt-mos/trunk/mosdns package/mosdns
+# svn co https://github.com/QiuSimons/openwrt-mos/trunk/v2ray-geodata package/v2ray-geodata
+
+svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-clash package/luci-app-clash
