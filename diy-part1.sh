@@ -52,3 +52,4 @@ rm -rf ./target/linux/generic/pending-5.10/701-net-ethernet-mtk_eth_soc-add-ipv6
 git clone https://github.com/padavanonly/immortalwrt.git ../driver
 rm -rf target/linux/ramips
 mv ../driver/target/linux/ramips/ target/linux/
+ls target/linux
